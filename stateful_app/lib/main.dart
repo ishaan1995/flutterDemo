@@ -3,18 +3,18 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Flutter Demo',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: new MyHomePage(title: 'First Stateful App'),
+      home: MyHomePage(title: 'First Stateful App'),
     );
   }
 }
@@ -34,15 +34,14 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   var jokeValue = "Chuck Norris Jokes";
 
   void _fetchJoke() async {
-
-    var response = await http.get('https://api.icndb.com/jokes/random');
+    var response = await http.get('https://api.icndb.com/jokes/random?escape=javascript');
     var joke = json.decode(response.body)['value']['joke'];
     print(joke);
 
@@ -53,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      
     });
   }
 
@@ -65,19 +63,25 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: new Text(widget.title),
+        title: Text(widget.title),
       ),
-      body: new Center(
-        child: Text(jokeValue),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(32.0),
+          child: Text(
+            jokeValue,
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 32.0),
+          ),
+        ),
       ),
-      floatingActionButton: new FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: _fetchJoke,
         tooltip: 'Increment',
-        child: new Icon(Icons.refresh),
+        child: Icon(Icons.refresh),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

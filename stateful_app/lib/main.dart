@@ -42,20 +42,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _fetchJoke() async {
     setState(() {
-      isLoading = true;
-    });
-
-    var response =
-        await http.get('https://api.icndb.com/jokes/random?escape=javascript');
-    var joke = json.decode(response.body)['value']['joke'];
-    print(joke);
-
-    setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+      isLoading = true;
+    });
+
+    var response = await http.get('https://api.icndb.com/jokes/random?escape=javascript');
+
+    var joke;
+    if (response.statusCode == 200) {
+      joke = json.decode(response.body)['value']['joke'];
+      print(joke);
+    } else {
+      joke = "Error getting result from api. try again";
+    }
+
+    setState(() {
       isLoading = false;
       jokeValue = joke;
     });

@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: FutureBuilder(
             future: _getData(),
             builder: (BuildContext context, AsyncSnapshot asyncSnapshot) {
-              if (asyncSnapshot == null) {
+              if (asyncSnapshot.data == null) {
                 return Center(child: CircularProgressIndicator());
               } else {
                 return ListView.builder(

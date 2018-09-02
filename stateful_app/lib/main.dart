@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:async';
 import 'dart:convert';
 
 void main() => runApp(MyApp());
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.yellow,
       ),
       home: MyHomePage(title: 'First Stateful App'),
     );
@@ -42,12 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
   var isLoading = false;
 
   void _fetchJoke() async {
-
     setState(() {
-          isLoading = true;
-        });
+      isLoading = true;
+    });
 
-    var response = await http.get('https://api.icndb.com/jokes/random?escape=javascript');
+    var response =
+        await http.get('https://api.icndb.com/jokes/random?escape=javascript');
     var joke = json.decode(response.body)['value']['joke'];
     print(joke);
 
@@ -63,12 +62,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _getChildView() {
+    //if api is loading new joke, show loader, else show joke message
     if (isLoading) {
       return CircularProgressIndicator();
     } else {
-      return Text(jokeValue,
-            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 32.0),
-          );
+      return Text(
+        jokeValue,
+        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 32.0),
+      );
     }
   }
 
@@ -87,10 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(32.0),
-          child: _getChildView()
-        ),
+        child: Padding(padding: EdgeInsets.all(32.0), child: _getChildView()),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _fetchJoke,

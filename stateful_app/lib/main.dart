@@ -39,20 +39,37 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var jokeValue = "Chuck Norris Jokes";
+  var isLoading = false;
 
   void _fetchJoke() async {
+
+    setState(() {
+          isLoading = true;
+        });
+
     var response = await http.get('https://api.icndb.com/jokes/random?escape=javascript');
     var joke = json.decode(response.body)['value']['joke'];
     print(joke);
 
     setState(() {
-      jokeValue = joke;
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
+      isLoading = false;
+      jokeValue = joke;
     });
+  }
+
+  Widget _getChildView() {
+    if (isLoading) {
+      return CircularProgressIndicator();
+    } else {
+      return Text(jokeValue,
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 32.0),
+          );
+    }
   }
 
   @override
@@ -72,10 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(32.0),
-          child: Text(
-            jokeValue,
-            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 32.0),
-          ),
+          child: _getChildView()
         ),
       ),
       floatingActionButton: FloatingActionButton(

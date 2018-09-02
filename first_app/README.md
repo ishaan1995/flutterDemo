@@ -1,6 +1,6 @@
 # first_app
 
-A new Flutter project.
+A simple flutter app with stateless widget.
 
 ## Getting Started
 
